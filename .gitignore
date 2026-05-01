@@ -1,0 +1,6 @@
+.DS_Store
+Thumbs.db
+.gemini/
+.antigravity/
+node_modules/
+*.log
