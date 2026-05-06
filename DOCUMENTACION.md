@@ -38,7 +38,7 @@ Calcula la **Utilidad Neta Real** restando de los ingresos:
 Permite crear cotizaciones rápidas con las siguientes lógicas:
 - **Selector de Documento:** Permite elegir entre **Factura (19% IVA)** o **Boleta (15.5% de retención/impuesto)**.
 - **Edición de Ítems:** Los materiales añadidos pueden editarse haciendo clic en el icono del lápiz ✏️.
-- **Costos Integrados:** La configuración de **Mano de Obra (Días)** y el **Margen de Ganancia** se encuentran directamente en la tarjeta de Resumen para una visualización inmediata del impacto en el precio total.
+- **Costos Integrados:** La configuración de **Mano de Obra (Días y $/Día)** y el **Margen de Ganancia** se encuentran directamente en la tarjeta de Resumen. Esto permite ajustar la tarifa diaria para un proyecto específico sin salir del presupuesto.
 - **Mano de Obra:** Cálculo automático basado en días trabajados y tarifa base configurable.
 - **Margen de Ganancia:** Permite añadir un porcentaje sobre el costo de los materiales.
 - **PDF:** Generación de una vista previa y descarga del documento oficial para enviar al cliente.

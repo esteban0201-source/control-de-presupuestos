@@ -11,6 +11,7 @@ window.renderBudget = async (container) => {
     // ---- Estado local ----
     let items      = [];
     let laborDays  = 1;
+    let laborRate  = laborCostPerDay; // Tarifa diaria (editable aquí)
     let margin     = 20;
     let taxType    = 'factura'; // 'boleta' | 'factura'
     let editingIdx = null;     // Índice del material que se está editando
@@ -23,7 +24,7 @@ window.renderBudget = async (container) => {
         const rawMats    = items.reduce((s, i) => s + i.quantity * i.unitPrice, 0);
         const marginAmt  = rawMats * (margin / 100);
         const matsBilled = rawMats + marginAmt;
-        const labor      = laborDays * laborCostPerDay;
+        const labor      = laborDays * laborRate;
         const subtotal   = matsBilled + labor;
         const taxRate    = getTaxRate();
         const iva        = subtotal * (taxRate / 100);
@@ -118,11 +119,15 @@ window.renderBudget = async (container) => {
                 </div>
 
                 <div class="form-row mb-1" style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px;">
-                    <div class="form-group mb-0">
-                        <label style="color:white; opacity:0.9;">🗓️ Días Trabajo</label>
+                    <div class="form-group mb-0" style="flex:0.8;">
+                        <label style="color:white; opacity:0.9;">🗓️ Días</label>
                         <input type="number" id="labor-days" class="form-control" value="${laborDays}" min="0" step="0.5" style="background: white; border:none; height:38px;">
                     </div>
-                    <div class="form-group mb-0">
+                    <div class="form-group mb-0" style="flex:1.2;">
+                        <label style="color:white; opacity:0.9;">💰 $/Día</label>
+                        <input type="number" id="labor-rate" class="form-control" value="${laborRate}" min="0" style="background: white; border:none; height:38px;">
+                    </div>
+                    <div class="form-group mb-0" style="flex:1;">
                         <label style="color:white; opacity:0.9;">📈 Margen %</label>
                         <input type="number" id="margin-pct" class="form-control" value="${margin}" min="0" style="background: white; border:none; height:38px;">
                     </div>
@@ -212,6 +217,10 @@ window.renderBudget = async (container) => {
         // ---- Recálculo en vivo ----
         document.getElementById('labor-days').addEventListener('input', () => {
             laborDays = parseFloat(document.getElementById('labor-days').value) || 0;
+            render();
+        });
+        document.getElementById('labor-rate').addEventListener('input', () => {
+            laborRate = parseFloat(document.getElementById('labor-rate').value) || 0;
             render();
         });
         document.getElementById('margin-pct').addEventListener('input', () => {
