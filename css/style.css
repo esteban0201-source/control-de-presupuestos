@@ -631,6 +631,11 @@ tr:hover td { background: #f8fefe; }
 
 .mat-item .mat-name { flex: 1; font-weight: 600; font-size: 0.95rem; }
 .mat-item .mat-price { color: var(--teal-dark); font-weight: 700; }
+.mat-item.editing {
+    background: #fffbeb;
+    border: 2px solid var(--accent-gold);
+    box-shadow: 0 0 10px rgba(245,166,35,0.2);
+}
 
 /* Summary box */
 .summary-box {

@@ -37,6 +37,7 @@ Calcula la **Utilidad Neta Real** restando de los ingresos:
 ### 🧮 Gestor de Presupuestos
 Permite crear cotizaciones rápidas con las siguientes lógicas:
 - **Selector de Documento:** Permite elegir entre **Factura (19% IVA)** o **Boleta (15.5% de retención/impuesto)**.
+- **Edición de Ítems:** Los materiales añadidos pueden editarse haciendo clic en el icono del lápiz ✏️, lo que carga los datos de nuevo en el formulario para su ajuste.
 - **Mano de Obra:** Cálculo automático basado en días trabajados.
 - **Margen de Ganancia:** Permite añadir un porcentaje sobre el costo de los materiales.
 - **PDF:** Generación de una vista previa y descarga del documento oficial para enviar al cliente.

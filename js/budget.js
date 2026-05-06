@@ -9,10 +9,11 @@ window.renderBudget = async (container) => {
     const facturaPercentage  = Number(settings.facturaPercentage) || 19;
 
     // ---- Estado local ----
-    let items     = [];
-    let laborDays = 1;
-    let margin    = 20;
-    let taxType   = 'factura'; // 'boleta' | 'factura'
+    let items      = [];
+    let laborDays  = 1;
+    let margin     = 20;
+    let taxType    = 'factura'; // 'boleta' | 'factura'
+    let editingIdx = null;     // Índice del material que se está editando
 
     function getTaxRate() {
         return taxType === 'boleta' ? boletaPercentage : facturaPercentage;
@@ -80,20 +81,25 @@ window.renderBudget = async (container) => {
                     <input type="text"   id="mat-name"  class="form-control" placeholder="Material (Ej. Cable 12AWG)" style="flex:3; min-width:120px;">
                     <input type="number" id="mat-qty"   class="form-control" placeholder="Cant." style="flex:1; min-width:70px;" min="1" value="1">
                     <input type="number" id="mat-price" class="form-control" placeholder="$ c/u" style="flex:2; min-width:100px;" min="0">
-                    <button id="add-mat" class="btn btn-primary btn-sm" style="flex-shrink:0; white-space:nowrap;">
-                        <i class="ph ph-plus-circle"></i> Añadir
+                    <button id="add-mat" class="btn ${editingIdx !== null ? 'btn-gold' : 'btn-primary'} btn-sm" style="flex-shrink:0; white-space:nowrap;">
+                        <i class="ph ${editingIdx !== null ? 'ph-pencil-simple' : 'ph-plus-circle'}"></i> 
+                        ${editingIdx !== null ? 'Actualizar' : 'Añadir'}
                     </button>
+                    ${editingIdx !== null ? `<button id="cancel-edit" class="btn btn-outline btn-sm">❌</button>` : ''}
                 </div>
 
                 <div id="mat-list">
                     ${items.length === 0
                         ? `<p class="text-muted text-center" style="padding:1rem;">Sin materiales. Añade el primero ☝️</p>`
                         : items.map((it, idx) => `
-                            <div class="mat-item">
+                             <div class="mat-item ${editingIdx === idx ? 'editing' : ''}">
                                 <div class="mat-name">${it.name}</div>
                                 <div class="text-muted" style="font-size:0.82rem;">${it.quantity} × ${window.formatCurrency(it.unitPrice)}</div>
                                 <div class="mat-price">${window.formatCurrency(it.quantity * it.unitPrice)}</div>
-                                <button class="btn-icon-sm rem-mat" data-idx="${idx}" title="Eliminar">🗑️</button>
+                                <div class="flex-gap">
+                                    <button class="btn-icon-sm edit-mat" data-idx="${idx}" title="Editar">✏️</button>
+                                    <button class="btn-icon-sm rem-mat" data-idx="${idx}" title="Eliminar">🗑️</button>
+                                </div>
                             </div>`).join('')
                     }
                 </div>
@@ -164,15 +170,47 @@ window.renderBudget = async (container) => {
             const name  = document.getElementById('mat-name').value.trim();
             const qty   = parseFloat(document.getElementById('mat-qty').value)   || 0;
             const price = parseFloat(document.getElementById('mat-price').value) || 0;
+            
             if (!name || qty <= 0 || price < 0) { alert('Completa nombre, cantidad y precio.'); return; }
-            items.push({ name, quantity: qty, unitPrice: price });
+            
+            if (editingIdx !== null) {
+                items[editingIdx] = { name, quantity: qty, unitPrice: price };
+                editingIdx = null;
+            } else {
+                items.push({ name, quantity: qty, unitPrice: price });
+            }
             render();
+        });
+
+        // ---- Cancelar edición ----
+        if (editingIdx !== null) {
+            document.getElementById('cancel-edit').addEventListener('click', () => {
+                editingIdx = null;
+                render();
+            });
+        }
+
+        // ---- Editar material ----
+        document.querySelectorAll('.edit-mat').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = Number(btn.dataset.idx);
+                const item = items[idx];
+                editingIdx = idx;
+                render();
+                // Llenar campos después del render
+                document.getElementById('mat-name').value  = item.name;
+                document.getElementById('mat-qty').value   = item.quantity;
+                document.getElementById('mat-price').value = item.unitPrice;
+                document.getElementById('mat-name').focus();
+            });
         });
 
         // ---- Eliminar material ----
         document.querySelectorAll('.rem-mat').forEach(btn => {
             btn.addEventListener('click', () => {
-                items.splice(Number(btn.dataset.idx), 1);
+                const idx = Number(btn.dataset.idx);
+                if (editingIdx === idx) editingIdx = null;
+                items.splice(idx, 1);
                 render();
             });
         });
