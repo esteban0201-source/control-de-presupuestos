@@ -105,26 +105,7 @@ window.renderBudget = async (container) => {
                 </div>
             </div>
 
-            <!-- Tarjeta de mano de obra y margen -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">👷</div>
-                    <div>
-                        <div class="card-title">Mano de Obra y Margen</div>
-                        <div class="card-sub">Tarifa base: ${window.formatCurrency(laborCostPerDay)} / día (editable en Ajustes)</div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>🗓️ Días de Trabajo</label>
-                        <input type="number" id="labor-days" class="form-control" value="${laborDays}" min="0" step="0.5">
-                    </div>
-                    <div class="form-group">
-                        <label>📈 Margen sobre Materiales (%)</label>
-                        <input type="number" id="margin-pct" class="form-control" value="${margin}" min="0">
-                    </div>
-                </div>
-            </div>
+            <!-- La sección de Mano de Obra y Margen se traslada al Resumen -->
 
             <!-- Tarjeta de resumen -->
             <div class="card" style="border: 2px solid var(--teal-mid);">
@@ -136,7 +117,18 @@ window.renderBudget = async (container) => {
                     </div>
                 </div>
 
-                <div class="summary-box">
+                <div class="form-row mb-1" style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px;">
+                    <div class="form-group mb-0">
+                        <label style="color:white; opacity:0.9;">🗓️ Días Trabajo</label>
+                        <input type="number" id="labor-days" class="form-control" value="${laborDays}" min="0" step="0.5" style="background: white; border:none; height:38px;">
+                    </div>
+                    <div class="form-group mb-0">
+                        <label style="color:white; opacity:0.9;">📈 Margen %</label>
+                        <input type="number" id="margin-pct" class="form-control" value="${margin}" min="0" style="background: white; border:none; height:38px;">
+                    </div>
+                </div>
+
+                <div class="summary-box" style="margin-top:0; padding-top:0;">
                     <div class="summary-row"><span>Costo Materiales (real)</span><span>${window.formatCurrency(t.rawMats)}</span></div>
                     <div class="summary-row"><span>Margen (+${margin}%)</span><span>+ ${window.formatCurrency(t.marginAmt)}</span></div>
                     <div class="summary-row"><span>Mano de Obra (${laborDays} día${laborDays !== 1 ? 's' : ''})</span><span>${window.formatCurrency(t.labor)}</span></div>
@@ -145,7 +137,9 @@ window.renderBudget = async (container) => {
                         <span>${taxType === 'boleta' ? `Boleta (${t.taxRate}%)` : `IVA Factura (${t.taxRate}%)`}</span>
                         <span>+ ${window.formatCurrency(t.iva)}</span>
                     </div>
-                    <div class="summary-row total-row"><span>TOTAL A COBRAR</span><span>${window.formatCurrency(t.total)}</span></div>
+                    <div class="summary-row total-row" style="border-top: 2px dashed rgba(255,255,255,0.3); margin-top:10px; padding-top:15px;">
+                        <span>TOTAL A COBRAR</span><span>${window.formatCurrency(t.total)}</span>
+                    </div>
                 </div>
 
                 <div class="flex-gap mt-1">

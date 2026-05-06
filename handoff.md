@@ -4,19 +4,20 @@ Este documento sirve como bitácora de estado para que cualquier desarrollador (
 
 ---
 
-## 📅 Última Actualización: 05 de Mayo, 2026
+## 📅 Última Actualización: 06 de Mayo, 2026
 
 ### ✅ Estado Actual
 La aplicación es una PWA completamente funcional enfocada en la gestión eléctrica en Chile. Soporta flujos financieros, presupuestos legales, bitácora de obra con fotos y gestión de inventario.
 
 ### 🚀 Funcionalidades Implementadas recientemente:
-- **🧮 Edición de Materiales:** Ahora los usuarios pueden editar materiales ya añadidos en un presupuesto antes de guardarlo (vía icono de lápiz).
+- **🧮 Integración de Costos:** Se trasladaron los campos de **Mano de Obra** y **Margen de Ganancia** directamente a la tarjeta de **Resumen del Presupuesto**. Esto permite ajustar el precio final viendo el total en tiempo real de forma más didáctica.
+- **✏️ Edición de Materiales:** Ahora los usuarios pueden editar materiales ya añadidos en un presupuesto antes de guardarlo (vía icono de lápiz).
 - **🇨🇱 Impuestos Chilenos:** Selector dinámico entre **Boleta (15.5%)** y **Factura (19% IVA)** en el generador de presupuestos.
 - **💳 Gestión de Cobros Pro:** Botones para eliminar proyectos completos y abonos individuales con recalculo de saldo.
 - **⚙️ Ajustes Dinámicos:** Los porcentajes de impuestos y costos de mano de obra son configurables por el usuario.
 - **🇪🇸 Localización:** Todo el código fuente (comentarios) y la interfaz están en **Español**.
 - **📦 Infraestructura de Respaldo:** Proyecto inicializado y vinculado a GitHub ([Repo](https://github.com/esteban0201-source/control-de-presupuestos.git)).
-- **⚡ PWA robusta:** Lógica de recarga forzada en `index.html` para evitar problemas de caché del Service Worker.
+- **⚡ PWA robusta:** Lógica de recarga forzada en `index.html` para evitar problemas de caché del Service Worker (v6).
 
 ---
 
@@ -25,7 +26,7 @@ La aplicación es una PWA completamente funcional enfocada en la gestión eléct
   - Clave importante: `taxType` en la tabla `projects` almacena si es boleta o factura.
   - Clave importante: `taxRate` almacena el porcentaje usado al momento de crear el presupuesto.
 - **Generación de PDF:** Centralizada en `js/pdfGenerator.js` usando la función `buildPDF`. Soporta tanto vista previa como descarga final.
-- **Caché:** Service Worker actualmente en **`voltmanage-v5`**.
+- **Caché:** Service Worker actualmente en **`voltmanage-v6`**.
 
 ---
 
