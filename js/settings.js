@@ -6,23 +6,7 @@ window.renderSettings = async (container) => {
     const settings = await dbAPI.getSettings();
 
     container.innerHTML = `
-        <!-- Mano de Obra -->
-        <div class="card">
-            <div class="card-header">
-                <div class="card-icon">👷</div>
-                <div>
-                    <div class="card-title">Mano de Obra</div>
-                    <div class="card-sub">Valor base por día trabajado</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>💲 Valor por Día (CLP)</label>
-                <input type="number" id="set-labor" class="form-control" value="${settings.laborCostPerDay || 50000}" min="0">
-            </div>
-            <p class="text-muted" style="font-size:0.82rem; margin-top:-0.5rem;">
-                Se usa en todos los presupuestos nuevos. Los guardados no cambian.
-            </p>
-        </div>
+        <!-- La Mano de Obra ahora se gestiona directamente en el Presupuesto -->
 
         <!-- Impuestos / Documentos -->
         <div class="card" style="border-left: 4px solid var(--teal-mid);">
@@ -112,13 +96,11 @@ window.renderSettings = async (container) => {
     `;
 
     document.getElementById('save-settings').addEventListener('click', async () => {
-        const labor    = parseFloat(document.getElementById('set-labor').value)   || 0;
         const boleta   = parseFloat(document.getElementById('set-boleta').value)  || 15.5;
         const factura  = parseFloat(document.getElementById('set-factura').value) || 19;
         const tools    = parseFloat(document.getElementById('set-tools').value)   || 0;
         const vehicle  = parseFloat(document.getElementById('set-vehicle').value) || 0;
 
-        await dbAPI.updateSetting('laborCostPerDay',   labor);
         await dbAPI.updateSetting('boletaPercentage',  boleta);
         await dbAPI.updateSetting('facturaPercentage', factura);
         await dbAPI.updateSetting('provisionToolWear', tools);

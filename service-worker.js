@@ -1,4 +1,4 @@
-const CACHE_NAME = 'voltmanage-v7';
+const CACHE_NAME = 'voltmanage-v8';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
